@@ -31,9 +31,30 @@ function createTables()
     mysqli_query($connection, $query);
 
 
-    $query = "CREATE TABLE IF NOT EXISTS job(user_id INT,id int auto_increment primary key, position varchar(100), salaryRange varchar(100), type varchar(100), address varchar(100), date varchar(100))";
+    // Create jobs table
+    $query = "CREATE TABLE IF NOT EXISTS jobs (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT,
+        position VARCHAR(100) NOT NULL,
+        salaryRange VARCHAR(100),
+        type VARCHAR(100),
+        address VARCHAR(100),
+        date VARCHAR(100),
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )";
     
     mysqli_query($connection, $query);
-}
 
+    // Create applications table
+    $query = "CREATE TABLE IF NOT EXISTS applications (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT,
+        job_id INT,
+        status VARCHAR(100),
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (job_id) REFERENCES jobs(id)
+    )";
+
+    mysqli_query($connection, $query);
+}
 ?>

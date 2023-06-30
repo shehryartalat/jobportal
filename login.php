@@ -9,95 +9,97 @@
 
   <?php include 'Database/connection.php' ?>
 
-  <?php
-
-  // Check if the login form is submitted
-  if (isset($_POST['login'])) {
-      $username = $_POST['username'];
-      $password = $_POST['password'];
-
-      // Query to retrieve the user from the database
-      $query = "SELECT * FROM users WHERE username='$username'";
-
-      // Execute the query
-      $result = mysqli_query($connection, $query);
-
-      if ($result && mysqli_num_rows($result) > 0) {
-          $user = mysqli_fetch_assoc($result);
-
-          // Verify the password
-          if (password_verify($password, $user['password'])) {
-              // Password is correct, set session variables and redirect to the dashboard
-              $_SESSION['user_id'] = $user['id'];
-              $_SESSION['username'] = $user['username'];
-              header("Location: profile.php");
-              exit();
-          } else {
-              // Invalid password
-              echo '<script>
-      alert("Invalid username or password.")
-  </script>';
-          }
-      } else {
-          // User not found
-          echo '<script>
-  alert("Invalid username or password.")
-</script>';
-      }
-  }
-
-  // Check if the signup form is submitted
-  if (isset($_POST['signup'])) {
-      $username = $_POST['username'];
-      $password = $_POST['password'];
-      $confirmPassword = $_POST['confirmPassword'];
-
-      // Validate form inputs
-      if (empty($username) || empty($password) || empty($confirmPassword)) {
-          echo '<script>
-  alert("Please fill in all fields.")
-</script>';
-      } elseif ($password !== $confirmPassword) {
-          echo '<script>
-  alert("Passwords do not match.")
-</script>';
-      } else {
-          // Check if the username already exists
-          $query = "SELECT * FROM users WHERE username='$username'";
-          $result = mysqli_query($connection, $query);
-
-          if ($result && mysqli_num_rows($result) > 0) {
-              echo '<script>
-      alert("Username already exists.")
-  </script>';
-              
-          } else {
-              // Hash the password
-              $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-              // Insert the user into the database
-              $query = "INSERT INTO users (username, password) VALUES ('$username', '$hashedPassword')";
-              $result = mysqli_query($connection, $query);
-
-              if ($result) {
-                  // Registration successful, redirect to the login page
-                  header("Location: login.php");
-                  exit();
-              } else {
-                echo '<script>
-        alert("Error creating user. Please try again.")
-    </script>';
-                  $signupError = "Error creating user. Please try again.";
-              }
-          }
-      }
-  }
-  ?>
 </head>
 
 
 <body>
   <?php include 'Component/Navbar.php'  ?>
+
+  <?php
+
+  
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['user_id']);
+
+  // Check if the login form is submitted
+  if (isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Query to retrieve the user from the database
+    $query = "SELECT * FROM users WHERE username='$username'";
+
+    // Execute the query
+    $result = mysqli_query($connection, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+      $user = mysqli_fetch_assoc($result);
+      if (password_verify($password, $user['password'])) {
+        // Password is correct, set session variables and redirect to the dashboard
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        header("Location: profile.php");
+        exit();
+      } else {
+        // Invalid password
+        echo '<script>
+      alert("Invalid username or password.")
+  </script>';
+      }
+    } else {
+      // User not found
+      echo '<script>
+  alert("Invalid username or password.")
+</script>';
+    }
+  }
+
+  // Check if the signup form is submitted
+  if (isset($_POST['signup'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $confirmPassword = $_POST['confirmPassword'];
+
+    // Validate form inputs
+    if (empty($username) || empty($password) || empty($confirmPassword)) {
+      echo '<script>
+  alert("Please fill in all fields.")
+</script>';
+    } elseif ($password !== $confirmPassword) {
+      echo '<script>
+  alert("Passwords do not match.")
+</script>';
+    } else {
+      // Check if the username already exists
+      $query = "SELECT * FROM users WHERE username='$username'";
+      $result = mysqli_query($connection, $query);
+
+      if ($result && mysqli_num_rows($result) > 0) {
+        echo '<script>
+      alert("Username already exists.")
+  </script>';
+      } else {
+        // Hash the password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insert the user into the database
+        $query = "INSERT INTO users (username, password) VALUES ('$username', '$hashedPassword')";
+        $result = mysqli_query($connection, $query);
+
+        if ($result) {
+          // Registration successful, redirect to the login page
+          header("Location: login.php");
+          exit();
+        } else {
+          echo '<script>
+        alert("Error creating user. Please try again.")
+    </script>';
+          $signupError = "Error creating user. Please try again.";
+        }
+      }
+    }
+  }
+  ?>
   <div class="login-wrap">
     <div class="login-html">
       <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
