@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -77,6 +78,17 @@
 
     <div class="container">
         <h1>Welcome, <?php echo $username; ?>!</h1>
+
+
+        <div class="d-flex flex-row-reverse bd-highlight">
+                <div class="p-2 bd-highlight">
+                <a href="Component/logout.php">Logout</a>
+                </div>
+            </div>
+            
+
+
+            <hr />
 
         <?php if ($isOwnProfile) : ?>
             <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -215,42 +227,54 @@
         <?php if ($isOwnProfile) : ?>
             <h2>Applied Jobs</h2>
 
-            <h2>Profile Management</h2>
-            <?php
-            // Fetch job applications from the database for the logged-in user
-            $query = "SELECT * FROM applications ";
-            $result = mysqli_query($connection, $query);
+            <div class="row">
+                <?php
+                // Fetch applications from the database
+                $query = "SELECT * FROM applications WHERE user_id = '$loggedInUserId'";
+                $result = mysqli_query($connection, $query);
 
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $jobTitle = $row['job_title'];
-                    $applicationDate = $row['application_date'];
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $applicationId = $row['id'];
+                        $jobId = $row['job_id'];
+                        $status = $row['status'];
 
-                    // Retrieve other relevant application data based on your database structure
+                        // Retrieve job details
+                        $jobQuery = "SELECT * FROM jobs WHERE id = '$jobId'";
+                        $jobResult = mysqli_query($connection, $jobQuery);
+                        $jobRow = mysqli_fetch_assoc($jobResult);
 
-            ?>
+                        $position = $jobRow['position'];
+                        $location = $jobRow['address'];
+                        $jobType = $jobRow['type'];
+                        $salaryRange = $jobRow['salaryRange'];
+                        $date = $jobRow['date'];
 
-                    <div class="application-item p-4 mb-4">
-                        <div class="row g-4">
-                            <div class="col-sm-12 col-md-8">
-                                <h5><?php echo $jobTitle; ?></h5>
-                                <!-- Display other relevant application data here -->
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Application Date: <?php echo $applicationDate; ?></small>
-                                <!-- Display other relevant application data here -->
+                        // Display application card
+                ?>
+                        <div class="col-sm-12 col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $position; ?></h5>
+                                    <h6 class="card-subtitle mb-3"><?php echo $location; ?></h6>
+                                    <p class="card-text">
+                                        <strong>Job Type:</strong> <?php echo $jobType; ?><br>
+                                        <strong>Salary Range:</strong> <?php echo $salaryRange; ?><br>
+                                        <strong>Date Line:</strong> <?php echo $date; ?>
+                                    </p>
+                                    <p class="card-text"><strong>Status:</strong> <?php echo $status; ?></p>
+                                    <!-- <a href="#" class="btn btn-primary">View Details</a> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-            <?php
+                <?php
+                    }
+                } else {
+                    // No applications found
+                    echo '<div class="alert alert-info" role="alert">No applications available.</div>';
                 }
-            } else {
-                // No job applications found
-                echo "<div class='text-center'>No job applications available.</div>";
-            }
-            ?>
-
+                ?>
+            </div>
         <?php endif; ?>
     </div>
 

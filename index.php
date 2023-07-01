@@ -254,7 +254,7 @@
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <?php
                             // Fetch job records from the database
-                            $query = "SELECT * FROM job";
+                            $query = "SELECT * FROM jobs";
                             $result = mysqli_query($connection, $query);
 
                             // Iterate over each job record
@@ -264,6 +264,7 @@
                                 $jobType = $row['type'];
                                 $salaryRange = $row['salaryRange'];
                                 $date = $row['date'];
+                                $jobId = $row['id']
                             ?>
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
@@ -297,40 +298,29 @@
                                             <div class="modal-body">
                                                 <?php
                                                 if (isset($_POST['submitApplication'])) {
+                                                    // Enable error reporting and display errors
+                                                    error_reporting(E_ALL);
+                                                    ini_set('display_errors', 1);
+                                                
                                                     // Retrieve form data
-                                                    $applicantName = $_POST['applicantName'];
-                                                    $applicantEmail = $_POST['applicantEmail'];
-                                                    $applicantResume = $_FILES['applicantResume']['name'];
-
+                                                
                                                     // Insert application data into the database
-                                                    $query = "INSERT INTO applications (user_id, job_id, status) VALUES (?, ?, ?)";
-                                                    $stmt = $pdo->prepare($query);
-                                                    $stmt->bindParam(1, $user_id);
-                                                    $stmt->bindParam(2, $job_id);
-                                                    $stmt->bindParam(3, $status);
-                                                    $user_id = 1; // Replace with the actual user ID
-                                                    $job_id = $jobId; // Assuming $jobId contains the job ID
-                                                    $status = "Submitted";
-                                                    $stmt->execute();
-
-                                                    // Display success message
-                                                    echo '<script>alert("Application submitted successfully!")</script>';
+                                                    $query = "INSERT INTO applications (user_id, job_id, status) VALUES ($isLoggedIn, $jobId, 'Padding')";
+                                                
+                                                    // Debugging: Display the query
+                                                    // echo "Query: $query<br>";
+                                                
+                                                    if (mysqli_query($connection, $query)) {
+                                                        echo '<script>alert("Form submitted successfully!");</script>';
+                                                    } else {
+                                                        $error = mysqli_error($connection);
+                                                        echo "<script>alert('Failed to submit form. Error: $error');</script>";
+                                                    }
                                                 }
+                                                
                                                 ?>
 
-                                                <form method="POST" enctype="multipart/form-data">
-                                                    <div class="mb-3">
-                                                        <label for="applicantName" class="form-label">Name</label>
-                                                        <input type="text" class="form-control" id="applicantName" name="applicantName" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="applicantEmail" class="form-label">Email</label>
-                                                        <input type="email" class="form-control" id="applicantEmail" name="applicantEmail" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="applicantResume" class="form-label">Resume</label>
-                                                        <input type="file" class="form-control" id="applicantResume" name="applicantResume" required>
-                                                    </div>
+                                                <form method="post">
                                                     <button type="submit" name="submitApplication" class="btn btn-primary">Submit</button>
                                                 </form>
                                             </div>
@@ -345,7 +335,180 @@
 
 
                         </div>
-                        <a class="btn btn-primary py-3 px-5" href="">Browse More Jobs</a>
+                        
+                        <div id="tab-2" class="tab-pane fade show p-0 ">
+                            <?php
+                            // Fetch job records from the database
+                            $query = "SELECT * FROM jobs where type='Full Time'";
+                            $result = mysqli_query($connection, $query);
+
+                            // Iterate over each job record
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $position = $row['position'];
+                                $location = $row['address'];
+                                $jobType = $row['type'];
+                                $salaryRange = $row['salaryRange'];
+                                $date = $row['date'];
+                                $jobId = $row['id']
+                            ?>
+                                <div class="job-item p-4 mb-4">
+                                    <div class="row g-4">
+                                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
+                                            <div class="text-start ps-4">
+                                                <h5 class="mb-3"><?php echo $position; ?></h5>
+                                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $location; ?></span>
+                                                <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php echo $jobType; ?></span>
+                                                <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $salaryRange; ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                            <div class="d-flex mb-3">
+                                                <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal<?php echo $jobId; ?>">Apply Now</button>
+                                            </div>
+                                            <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: <?php echo $date; ?></small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Apply Modal -->
+                                <div class="modal fade" id="applyModal<?php echo $jobId; ?>" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="applyModalLabel">Apply for <?php echo $position; ?></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php
+                                                if (isset($_POST['submitApplication'])) {
+                                                    // Enable error reporting and display errors
+                                                    error_reporting(E_ALL);
+                                                    ini_set('display_errors', 1);
+                                                
+                                                    // Retrieve form data
+                                                
+                                                    // Insert application data into the database
+                                                    $query = "INSERT INTO applications (user_id, job_id, status) VALUES ($isLoggedIn, $jobId, 'Padding')";
+                                                
+                                                    // Debugging: Display the query
+                                                    // echo "Query: $query<br>";
+                                                
+                                                    if (mysqli_query($connection, $query)) {
+                                                        echo '<script>alert("Form submitted successfully!");</script>';
+                                                    } else {
+                                                        $error = mysqli_error($connection);
+                                                        echo "<script>alert('Failed to submit form. Error: $error');</script>";
+                                                    }
+                                                }
+                                                
+                                                ?>
+
+                                                <form method="post">
+                                                    <button type="submit" name="submitApplication" class="btn btn-primary">Submit</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            <?php
+                            }
+                            ?>
+
+
+                        </div>
+                        
+                        <div id="tab-3" class="tab-pane fade show p-0 ">
+                            <?php
+                            // Fetch job records from the database
+                            $query = "SELECT * FROM jobs where type='Part Time'";
+                            $result = mysqli_query($connection, $query);
+
+                            // Iterate over each job record
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $position = $row['position'];
+                                $location = $row['address'];
+                                $jobType = $row['type'];
+                                $salaryRange = $row['salaryRange'];
+                                $date = $row['date'];
+                                $jobId = $row['id']
+                            ?>
+                                <div class="job-item p-4 mb-4">
+                                    <div class="row g-4">
+                                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-1.jpg" alt="" style="width: 80px; height: 80px;">
+                                            <div class="text-start ps-4">
+                                                <h5 class="mb-3"><?php echo $position; ?></h5>
+                                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i><?php echo $location; ?></span>
+                                                <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php echo $jobType; ?></span>
+                                                <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i><?php echo $salaryRange; ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                            <div class="d-flex mb-3">
+                                                <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal<?php echo $jobId; ?>">Apply Now</button>
+                                            </div>
+                                            <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: <?php echo $date; ?></small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Apply Modal -->
+                                <div class="modal fade" id="applyModal<?php echo $jobId; ?>" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="applyModalLabel">Apply for <?php echo $position; ?></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php
+                                                if (isset($_POST['submitApplication'])) {
+                                                    // Enable error reporting and display errors
+                                                    error_reporting(E_ALL);
+                                                    ini_set('display_errors', 1);
+                                                
+                                                    // Retrieve form data
+                                                
+                                                    // Insert application data into the database
+                                                    $query = "INSERT INTO applications (user_id, job_id, status) VALUES ($isLoggedIn, $jobId, 'Padding')";
+                                                
+                                                    // Debugging: Display the query
+                                                    // echo "Query: $query<br>";
+                                                
+                                                    if (mysqli_query($connection, $query)) {
+                                                        echo '<script>alert("Form submitted successfully!");</script>';
+                                                    } else {
+                                                        $error = mysqli_error($connection);
+                                                        echo "<script>alert('Failed to submit form. Error: $error');</script>";
+                                                    }
+                                                }
+                                                
+                                                ?>
+
+                                                <form method="post">
+                                                    <button type="submit" name="submitApplication" class="btn btn-primary">Submit</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            <?php
+                            }
+                            ?>
+
+
+                        </div>
+                        
+                        
+                        
+                        <a class="btn btn-primary py-3 px-5" href="job-list.php">Browse More Jobs</a>
                     </div>
 
                 </div>
