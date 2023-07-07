@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -34,11 +33,11 @@
 
     // Check if user is logged in
     $isLoggedIn = isset($_SESSION['user_id']);
-    if ($isLoggedIn != 1) {
-        // Redirect the user to the login page if not logged in
-        header("Location: login.php");
-        exit;
-    }
+//     if ($isLoggedIn != 1) {
+//         // Redirect the user to the login page if not logged in
+// header("Location: login.php");
+//         exit;
+//     }
 
     // Get the logged-in user's ID
     $loggedInUserId = $_SESSION['user_id'];
@@ -80,15 +79,16 @@
         <h1>Welcome, <?php echo $username; ?>!</h1>
 
 
-        <div class="d-flex flex-row-reverse bd-highlight">
+        <?php if ($isOwnProfile) : ?>
+            <div class="d-flex flex-row-reverse bd-highlight">
                 <div class="p-2 bd-highlight">
-                <a href="Component/logout.php">Logout</a>
+                    <a href="Component/logout.php">Logout</a>
                 </div>
             </div>
-            
-
 
             <hr />
+
+        <?php endif; ?>
 
         <?php if ($isOwnProfile) : ?>
             <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">

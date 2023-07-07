@@ -8,7 +8,6 @@ session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +54,6 @@ $isLoggedIn = isset($_SESSION['user_id']);
                     <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Jobs</a>
                     <div class="dropdown-menu rounded-0 m-0">
                         <a href="job-list.php" class="dropdown-item active">Job List</a>
-                        <a href="job-detail.php" class="dropdown-item">Job Detail</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">

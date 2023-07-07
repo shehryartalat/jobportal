@@ -1,8 +1,8 @@
 <?php
-session_start();
 
-// Check if the user is logged in
-if (isset($_SESSION['loggedInUserId'])) {
+
+session_start();
+if (isset($_SESSION['user_id'])) {
     // Clear all session variables
     session_unset();
 
