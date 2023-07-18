@@ -56,5 +56,7 @@ function createTables()
     )";
 
     mysqli_query($connection, $query);
+
+
 }
 ?>

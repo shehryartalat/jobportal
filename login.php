@@ -38,7 +38,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
         // Password is correct, set session variables and redirect to the dashboard
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
-        header("Location: profile.php");
+        header("Location: index.php");
         exit();
       } else {
         // Invalid password

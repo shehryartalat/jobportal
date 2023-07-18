@@ -47,72 +47,61 @@
         <!-- Navbar End -->
 
 
-        <!-- Header End -->
-        <div class="container-xxl py-5 bg-dark page-header mb-5">
-            <div class="container my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Testimonial</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Testimonial</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <!-- Header End -->
+
 
 
         <!-- Testimonial Start -->
         <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container">
-                <h1 class="text-center mb-5">Our Clients Say!!!</h1>
-                <div class="owl-carousel testimonial-carousel">
-                    <div class="testimonial-item bg-light rounded p-4">
-                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-                        <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-1.jpg" style="width: 50px; height: 50px;">
-                            <div class="ps-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <small>Profession</small>
+        <div class="container">
+            <h1 class="text-center mb-5">Our Clients Say!!!</h1>
+            <div class="owl-carousel testimonial-carousel">
+                <div class="testimonial-item bg-light rounded p-4">
+                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                    <p>Life-changing opportunities found on this job portal!</p>
+                    <div class="d-flex align-items-center">
+                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-1.jpg" style="width: 50px; height: 50px;">
+                        <div class="ps-3">
+                            <h5 class="mb-1">Shehryar Talat</h5>
+                            <small>Web Developer</small>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-item bg-light rounded p-4">
                     <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                    <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+                    <p>Easily landed my dream job, thanks to this website!</p>
                     <div class="d-flex align-items-center">
                         <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-2.jpg" style="width: 50px; height: 50px;">
-                    <div class="ps-3">
-                    <h5 class="mb-1">Client Name</h5>
-                    <small>Profession</small>
+                        <div class="ps-3">
+                            <h5 class="mb-1">Saad Khalil</h5>
+                            <small>Front End Developer</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item bg-light rounded p-4">
+                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                    <p>Efficient, user-friendly, and effective job search platform!</p>
+                    <div class="d-flex align-items-center">
+                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-3.jpg" style="width: 50px; height: 50px;">
+                        <div class="ps-3">
+                            <h5 class="mb-1">Sabeerah Kafait</h5>
+                            <small>Front End Developer</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item bg-light rounded p-4">
+                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                    <p>Connected with top employers, secured my ideal career.</p>
+                    <div class="d-flex align-items-center">
+                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-4.jpg" style="width: 50px; height: 50px;">
+                        <div class="ps-3">
+                            <h5 class="mb-1">Sheraz Akhtar</h5>
+                            <small>Professional</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="testimonial-item bg-light rounded p-4">
-            <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-            <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-            <div class="d-flex align-items-center">
-                <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-3.jpg" style="width: 50px; height: 50px;">
-                <div class="ps-3">
-                    <h5 class="mb-1">Client Name</h5>
-                    <small>Profession</small>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-item bg-light rounded p-4">
-            <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-            <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
-            <div class="d-flex align-items-center">
-                <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-4.jpg" style="width: 50px; height: 50px;">
-                <div class="ps-3">
-                    <h5 class="mb-1">Client Name</h5>
-                    <small>Profession</small>
-                </div>
-            </div>
-        </div>
-        </div>
+    </div>
 
         <!-- Testimonial End -->
 

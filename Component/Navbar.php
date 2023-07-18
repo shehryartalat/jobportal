@@ -51,9 +51,9 @@ $isLoggedIn = isset($_SESSION['user_id']);
                 <a href="index.php" class="nav-item nav-link">Home</a>
                 <a href="about.php" class="nav-item nav-link">About</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Jobs</a>
+                    <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown">Jobs</a>
                     <div class="dropdown-menu rounded-0 m-0">
-                        <a href="job-list.php" class="dropdown-item active">Job List</a>
+                        <a href="job-list.php" class="dropdown-item ">Job List</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
